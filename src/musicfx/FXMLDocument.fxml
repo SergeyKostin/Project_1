@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane  id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="musicfx.FXMLDocumentController">
+    <children>
+        <Button layoutX="100" layoutY="80" minHeight="30" minWidth="200"  text="read txt" onAction="#ActionReadTxt" fx:id="read_txt" />
+        <Button layoutX="100" layoutY="140" minHeight="30" minWidth="200" text="read xml" onAction="#ActionReadXml" fx:id="read_xml" />
+        <Button layoutX="100" layoutY="200" minHeight="30" minWidth="200" text="read mp3" onAction="#ActionReadMp3" fx:id="read_mp3" />
+        <Button layoutX="100" layoutY="260" minHeight="30" minWidth="200" text="print console" onAction="#ActionWriteConsole" fx:id="print_console" />
+        <Button layoutX="100" layoutY="320" minHeight="30" minWidth="200" text="write txt" onAction="#ActionWriteTxt" fx:id="write_txt" />
+        <Button layoutX="100" layoutY="380" minHeight="30" minWidth="200" text="write xml" onAction="#ActionWriteXml" fx:id="write_xml" />
+        <Button layoutX="100" layoutY="440" minHeight="30" minWidth="200" text="view tracks" onAction="#ActionWievTracks" fx:id="view_tracs" />
+       
+       <Label layoutX="330" layoutY="500" minHeight="16" minWidth="69" fx:id="label" />
+    </children>
+</AnchorPane>
