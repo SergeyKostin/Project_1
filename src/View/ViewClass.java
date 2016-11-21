@@ -26,14 +26,14 @@ import  org.xml.sax.helpers.*;
 
 public class ViewClass implements View {
 
-  /*  public void printTrackList(TrackList trackList) {
+    public void printTrackList(TrackList trackList) {
         for (int i = 0; i < trackList.getGenres().size(); i++) {
             System.out.println(trackList.getGenres().get(i) + ":");
             for (int j = 0; j < trackList.getTracks().size(); j++)
                 if (trackList.getTrack(j).getGenre().equals(trackList.getGenres().get(i)))
                     System.out.println("Исполнитель: " + trackList.getTrack(j).getBand() + "  Название трека: " + trackList.getTrack(j).getName() + "  Длина трека: " + trackList.getTrack(j).getDuration());
         }
-    }*/
+    }
 
     public void printTracksByNameOfType(String type, TrackList trackList, String typeName) {
         switch (type) {
@@ -89,33 +89,36 @@ public class ViewClass implements View {
      public String Comands(){
         
         System.out.println("Введите  командy из списка:");
-        System.out.println("read console, print console, read txt, write txt, write XML");
+        System.out.println("read console, print console, read txt, write txt,raed xml, write xml, read mp3");
         Scanner in=new Scanner(System.in);
         String comand=in.nextLine();
         return comand;
     }
-     public void WriterXmlTrackList(TrackList tracList, String str) throws FileNotFoundException{
+    /* public void WriterXmlTrackList(TrackList tracList, String str) throws FileNotFoundException{
+        
          FileOutputStream out = new FileOutputStream(str+".xml"); 
           XMLEncoder xml = new XMLEncoder(out);
           xml.writeObject(tracList);
-          for(int i=0;i<tracList.getTracks().size();i++)
-           xml.writeObject(" Жанр: "+tracList.getTrack(i).getGenre()+" Альбом "+tracList.getTrack(i).getAlbum()+" Исполнитель: "+tracList.getTrack(i).getBand()+" Название: "+tracList.getTrack(i).getName()+" Продолжительность: "+tracList.getTrack(i).getDuration());
+         // for(int i=0;i<tracList.getTracks().size();i++)
+          // xml.writeObject(" Жанр: "+tracList.getTrack(i).getGenre()+" Альбом "+tracList.getTrack(i).getAlbum()+" Исполнитель: "+tracList.getTrack(i).getBand()+" Название: "+tracList.getTrack(i).getName()+" Продолжительность: "+tracList.getTrack(i).getDuration());
        
           xml.close();
         
-    }
+    }*/
      public void WriterTxtTrackList(TrackList tracList, String str) throws FileNotFoundException, IOException{
        PrintWriter writ=new PrintWriter(new BufferedWriter(new FileWriter(str+".txt")));
-       for(int i=0;i<tracList.getTracks().size();i++)
-           writ.print(" Жанр: "+tracList.getTrack(i).getGenre()+" Альбом "+tracList.getTrack(i).getAlbum()+" Исполнитель: "+tracList.getTrack(i).getBand()+" Название: "+tracList.getTrack(i).getName()+" Продолжительность: "+tracList.getTrack(i).getDuration());
+       for(int i=0;i<tracList.getTracks().size();i++){
+           writ.write(tracList.getTrack(i).getGenre()+" "+tracList.getTrack(i).getAlbum()+" "+tracList.getTrack(i).getBand()+" "+tracList.getTrack(i).getName()+" "+tracList.getTrack(i).getDuration());
+           writ.append("\n");
+       }
        writ.close();
      }
 
-    @Override
-    public void printTrackList(TrackList tracList) {
+    //@Override
+  /*  public void printTrackList(TrackList tracList) {
        for(int i=0;i<tracList.getTracks().size();i++)
            System.out.println(" Жанр: "+tracList.getTrack(i).getGenre()+" Альбом "+tracList.getTrack(i).getAlbum()+" Исполнитель: "+tracList.getTrack(i).getBand()+" Название: "+tracList.getTrack(i).getName()+" Продолжительность: "+tracList.getTrack(i).getDuration());
-    }
+    }*/
     public TrackList ReadTxtTrackList( String str) throws FileNotFoundException, IOException{
         TrackList trackList=new TrackList();
         BufferedReader read = new BufferedReader(new FileReader(str+".txt"));
@@ -131,7 +134,7 @@ public class ViewClass implements View {
         return trackList;
     }
     public String NameTxt(){
-        System.out.println("Введите путь и имя файла через слеш (без расширения xml) :");
+        System.out.println("Введите путь и имя файла через слеш (без расширения xml или txt) :");
         Scanner in=new Scanner(System.in);
         String str=in.nextLine();
         return str;
