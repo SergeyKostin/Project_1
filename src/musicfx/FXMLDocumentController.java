@@ -40,11 +40,21 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Label label;
-    
-   
+    @FXML
+    TableView<Track> tableTracs=new TableView<Track>();
+    @FXML
+    TableColumn<Track,String> nameOfTrackCol = new TableColumn<Track,String>("nameOfTrack");
+    @FXML
+    TableColumn<Track,String> albumCol = new TableColumn<Track,String>("album");
+    @FXML
+    TableColumn<Track,String> bandCol = new TableColumn<Track,String>("band");
+    @FXML
+    TableColumn<Track,String> durationCol = new TableColumn<Track,String>("duration");
+    @FXML  
+    TableColumn<Track,String> genreCol = new TableColumn<Track,String>("genre");
     private TrackList model=new TrackList();
     private String location;
-    
+    private ObservableList<Track> tracksData;
     @FXML
     private void ActionReadTxt(ActionEvent event) {
        Stage stage = new Stage();
@@ -62,10 +72,13 @@ public class FXMLDocumentController implements Initializable {
             stage.close();
            try {
                this.model=this.ReadTxtTrackList(location);
+               this.tracksData=FXCollections.observableArrayList(model.getTracks());
+               this.initialize();
            } catch (IOException ex) {
                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
            }
         });
+       
        
     }
     
@@ -101,6 +114,8 @@ public class FXMLDocumentController implements Initializable {
             stage.close();
            try {
                this.model=RepositoryClass.ReadXmlTrackList(location);
+               this.tracksData=FXCollections.observableArrayList(model.getTracks());
+               this.initialize();
            } catch (IOException ex) {
                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -123,6 +138,8 @@ public class FXMLDocumentController implements Initializable {
             stage.close();
            try {
                this.model=RepositoryClass.scanForTrack(location);
+               this.tracksData=FXCollections.observableArrayList(model.getTracks());
+               this.initialize();
            } catch (IOException ex) {
                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -192,40 +209,24 @@ public class FXMLDocumentController implements Initializable {
            }
         });
     }
-    @FXML
-    private void ActionWievTracks(ActionEvent event) {
-       Stage stage = new Stage();
-       stage.setTitle("Tracks:");
-        TableView<Track> tableTracs=new TableView<Track>();
-        ObservableList<Track> tracksData = FXCollections.observableArrayList(model.getTracks());
-       
+  
+    public void initialize() {
+        tracksData = FXCollections.observableArrayList(model.getTracks());
         
-        TableColumn<Track,String> nameOfTrackCol = new TableColumn<Track,String>("nameOfTrack");
         nameOfTrackCol.setCellValueFactory(new PropertyValueFactory<Track, String>("nameOfTrack"));
-        
-        TableColumn<Track,String> albumCol = new TableColumn<Track,String>("album");
         albumCol.setCellValueFactory(new PropertyValueFactory<Track, String>("album"));
-        
-        TableColumn<Track,String> bandCol = new TableColumn<Track,String>("band");
         bandCol.setCellValueFactory(new PropertyValueFactory<Track, String>("band"));
-        
-        TableColumn<Track,String> durationCol = new TableColumn<Track,String>("duration");
         durationCol.setCellValueFactory(new PropertyValueFactory<Track, String>("duration"));
-        
-        TableColumn<Track,String> genreCol = new TableColumn<Track,String>("genre");
         genreCol.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
-        
         tableTracs.getColumns().setAll(nameOfTrackCol,albumCol,bandCol,durationCol,genreCol);
-        
         tableTracs.setItems(tracksData);
-        Scene scene = new Scene(tableTracs,320,400);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        
     }    
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+      
+    }
     
 }
