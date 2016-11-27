@@ -20,15 +20,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.RepositoryClass;
@@ -41,30 +49,37 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label label;
     @FXML
-    TableView<Track> tableTracs=new TableView<Track>();
+    private Button save_nameTrackList;
     @FXML
-    TableColumn<Track,String> nameOfTrackCol = new TableColumn<Track,String>("nameOfTrack");
+    private TextField textNameTrackList;
     @FXML
-    TableColumn<Track,String> albumCol = new TableColumn<Track,String>("album");
+    private TableView<Track> tableTracs=new TableView<Track>();
     @FXML
-    TableColumn<Track,String> bandCol = new TableColumn<Track,String>("band");
+    private TableColumn<Track,String> nameOfTrackCol = new TableColumn<Track,String>("nameOfTrack");
     @FXML
-    TableColumn<Track,String> durationCol = new TableColumn<Track,String>("duration");
+    private TableColumn<Track,String> albumCol = new TableColumn<Track,String>("album");
+    @FXML
+    private TableColumn<Track,String> bandCol = new TableColumn<Track,String>("band");
+    @FXML
+    private TableColumn<Track,String> durationCol = new TableColumn<Track,String>("duration");
     @FXML  
-    TableColumn<Track,String> genreCol = new TableColumn<Track,String>("genre");
+    private TableColumn<Track,String> genreCol = new TableColumn<Track,String>("genre");
+   
     private TrackList model=new TrackList();
     private String location;
     private ObservableList<Track> tracksData;
+    
+
     @FXML
     private void ActionReadTxt(ActionEvent event) {
        Stage stage = new Stage();
        StackPane root = new StackPane();
        stage.setTitle("Введите путь к файлу");
-       TextArea textArea = new TextArea();
+       TextField textArea = new TextField();
        Button but=new Button("read tracks");
        root.getChildren().addAll(textArea, but);
-       Scene scene = new Scene(root,250,70);
-       root.setAlignment(Pos.BOTTOM_RIGHT);
+       Scene scene = new Scene(root,350,70);
+       root.setAlignment(Pos.CENTER_RIGHT);
        stage.setScene(scene);
        stage.show();
          but.setOnAction(e -> {
@@ -101,12 +116,12 @@ public class FXMLDocumentController implements Initializable {
     private void ActionReadXml(ActionEvent event) {
          Stage stage = new Stage();
        StackPane root = new StackPane();
-       TextArea textArea = new TextArea();
+       TextField textArea = new TextField();
        Button but=new Button("read tracks");
        root.getChildren().addAll(textArea, but);
        stage.setTitle("Введите путь к файлу");
-       Scene scene = new Scene(root,250,70);
-       root.setAlignment(Pos.BOTTOM_RIGHT);
+       Scene scene = new Scene(root,350,70);
+       root.setAlignment(Pos.CENTER_RIGHT);
        stage.setScene(scene);
        stage.show();
          but.setOnAction(e -> {
@@ -125,12 +140,12 @@ public class FXMLDocumentController implements Initializable {
     private void ActionReadMp3(ActionEvent event) {
          Stage stage = new Stage();
        StackPane root = new StackPane();
-       TextArea textArea = new TextArea();
+       TextField textArea = new TextField();
        Button but=new Button("read tracks");
        root.getChildren().addAll(textArea, but);
        stage.setTitle("Введите путь к файлу");
-       Scene scene = new Scene(root,250,70);
-       root.setAlignment(Pos.BOTTOM_RIGHT);
+       Scene scene = new Scene(root,350,70);
+       root.setAlignment(Pos.CENTER_RIGHT);
        stage.setScene(scene);
        stage.show();
          but.setOnAction(e -> {
@@ -160,12 +175,12 @@ public class FXMLDocumentController implements Initializable {
     private void ActionWriteTxt(ActionEvent event) {
          Stage stage = new Stage();
        StackPane root = new StackPane();
-       TextArea textArea = new TextArea();
+       TextField textArea = new TextField();
        Button but=new Button("write tracks");
        root.getChildren().addAll(textArea, but);
        stage.setTitle("Введите путь к файлу");
-       Scene scene = new Scene(root,250,70);
-       root.setAlignment(Pos.BOTTOM_RIGHT);
+       Scene scene = new Scene(root,350,70);
+       root.setAlignment(Pos.CENTER_RIGHT);
        stage.setScene(scene);
        stage.show();
          but.setOnAction(e -> {
@@ -189,14 +204,14 @@ public class FXMLDocumentController implements Initializable {
      }
     @FXML
     private void ActionWriteXml(ActionEvent event) {
-         Stage stage = new Stage();
+       Stage stage = new Stage();
        StackPane root = new StackPane();
-       TextArea textArea = new TextArea();
+       TextField textArea = new TextField();
        Button but=new Button("write tracks");
        root.getChildren().addAll(textArea, but);
        stage.setTitle("Введите путь к файлу");
-       Scene scene = new Scene(root,250,70);
-       root.setAlignment(Pos.BOTTOM_RIGHT);
+       Scene scene = new Scene(root,350,70);
+       root.setAlignment(Pos.CENTER_RIGHT);
        stage.setScene(scene);
        stage.show();
          but.setOnAction(e -> {
@@ -209,16 +224,101 @@ public class FXMLDocumentController implements Initializable {
            }
         });
     }
-  
+    @FXML
+    private void ActionWriteTrackXml(ActionEvent event) throws IOException {
+      
+        Stage stage = new Stage();
+        GridPane grid = new GridPane();
+          grid.setAlignment(Pos.CENTER);
+          grid.setHgap(10);
+          grid.setVgap(10);
+          grid.setPadding(new Insets(25, 25, 25, 25));
+
+       StackPane root = new StackPane();
+       TextField TextNameTrack = new TextField();
+       grid.add(TextNameTrack, 2, 2);
+       TextField loc = new TextField();
+       grid.add(loc, 2, 3);
+       Button but=new Button("read track");
+       Label nameTrac=new Label("name of Track:");
+       grid.add(nameTrac, 1, 2);
+       Label locfile=new Label("Lacation file:");
+       grid.add(locfile, 1, 3);
+       root.getChildren().addAll(grid, but);
+       stage.setTitle("Введите путь к файлу");
+       Scene scene = new Scene(root,350,150);
+       root.setAlignment(Pos.BOTTOM_RIGHT);
+       stage.setScene(scene);
+       stage.show();
+         but.setOnAction(e ->{
+         Track track=new Track();
+         this.location=loc.getText();
+         track=this.model.getTrack(TextNameTrack.getText());
+         stage.close();
+            try {
+                RepositoryClass.WriterXmlTrack(track, location);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         });
+    }
+    
     public void initialize() {
-        tracksData = FXCollections.observableArrayList(model.getTracks());
+        this.textNameTrackList.setText(model.getNameTrackList());
+        save_nameTrackList.setOnAction(e->{
+            this.model.setNameTrackList(textNameTrackList.getText());
+            });
         
-        nameOfTrackCol.setCellValueFactory(new PropertyValueFactory<Track, String>("nameOfTrack"));
+        tracksData = FXCollections.observableArrayList(model.getTracks());
+       
+        nameOfTrackCol.setCellValueFactory(new PropertyValueFactory<Track, String>("name"));
+        nameOfTrackCol.setCellFactory(TextFieldTableCell.<Track> forTableColumn());
+        nameOfTrackCol.setOnEditCommit((CellEditEvent<Track, String> event) -> {
+            TablePosition<Track, String> pos = event.getTablePosition();
+            String newNameOfTrack = event.getNewValue();
+            int row = pos.getRow();
+            Track trac = event.getTableView().getItems().get(row);
+
+            model.getTrack(row).setName(newNameOfTrack);
+        });
+
+
         albumCol.setCellValueFactory(new PropertyValueFactory<Track, String>("album"));
+        albumCol.setCellFactory(TextFieldTableCell.<Track> forTableColumn());
+        albumCol.setOnEditCommit((CellEditEvent<Track, String> event) -> {
+            TablePosition<Track, String> pos = event.getTablePosition();
+            String album = event.getNewValue();
+            int row = pos.getRow();
+            Track trac = event.getTableView().getItems().get(row);
+            model.getTrack(row).setAlbum(album);
+        });
         bandCol.setCellValueFactory(new PropertyValueFactory<Track, String>("band"));
+        bandCol.setCellFactory(TextFieldTableCell.<Track> forTableColumn());
+        bandCol.setOnEditCommit((CellEditEvent<Track, String> event) -> {
+            TablePosition<Track, String> pos = event.getTablePosition();
+            String band = event.getNewValue();
+            int row = pos.getRow();
+            Track trac = event.getTableView().getItems().get(row);
+            model.getTrack(row).setBand(band);
+        });
         durationCol.setCellValueFactory(new PropertyValueFactory<Track, String>("duration"));
+        durationCol.setCellFactory(TextFieldTableCell.<Track> forTableColumn());
+        durationCol.setOnEditCommit((CellEditEvent<Track, String> event) -> {
+            TablePosition<Track, String> pos = event.getTablePosition();
+            String duration = event.getNewValue();
+            int row = pos.getRow();
+            Track trac = event.getTableView().getItems().get(row);
+            model.getTrack(row).setDuration(duration);
+        });
         genreCol.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
-        tableTracs.getColumns().setAll(nameOfTrackCol,albumCol,bandCol,durationCol,genreCol);
+        genreCol.setCellFactory(TextFieldTableCell.<Track> forTableColumn());
+        genreCol.setOnEditCommit((CellEditEvent<Track, String> event) -> {
+            TablePosition<Track, String> pos = event.getTablePosition();
+            String genre = event.getNewValue();
+            int row = pos.getRow();
+            Track trac = event.getTableView().getItems().get(row);
+            model.getTrack(row).setGenre(genre);
+        });
         tableTracs.setItems(tracksData);
         
         

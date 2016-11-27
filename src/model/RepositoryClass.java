@@ -80,13 +80,15 @@ public class RepositoryClass
                trackList.addTrack(index, track);
                index++;}
         
-           
-          
-          
-
-          xml.close();
+           xml.close();
           return trackList;
           
         
     }
+    public static void WriterXmlTrack(Track track, String str) throws FileNotFoundException{
+         FileOutputStream out = new FileOutputStream(str+".xml"); 
+         XMLEncoder xml = new XMLEncoder(out);
+         xml.writeObject(track.getName()+";"+track.getAlbum()+";"+track.getBand()+";"+track.getDuration()+";"+track.getGenre()+";");
+         xml.close();
+        }
 }

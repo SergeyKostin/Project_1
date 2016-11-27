@@ -3,18 +3,38 @@ package model;
 import java.util.ArrayList;
 
 public class TrackList {
+    private String nameTrackList;
     private ArrayList<Track> tracks;
 
     public TrackList() {
+        this.nameTrackList="UNKNOWN";
         this.tracks = new ArrayList();
     }
 
     public TrackList(ArrayList<Track> tracks) {
+        this.nameTrackList="UNKNOWN";
         this.tracks = tracks;
     }
-
+    public TrackList(ArrayList<Track> tracks, String nameTrackList) {
+        this.nameTrackList=nameTrackList;
+        this.tracks = tracks;
+    }
+    public String getNameTrackList(){
+        return this.nameTrackList;
+    }
+    public void setNameTrackList(String nameTracList){
+        this.nameTrackList=nameTracList;
+    }
     public Track getTrack(int index) {
         return tracks.get(index);
+    }
+     public Track getTrack(String nameTrack) {
+         Track track=new Track();
+           for(int i=0;i<this.tracks.size();i++)
+            if(this.getTrack(i).getName().equals(nameTrack))
+              track=this.getTrack(i);
+        
+        return track;
     }
 
     public ArrayList<Track> getTracks() {
