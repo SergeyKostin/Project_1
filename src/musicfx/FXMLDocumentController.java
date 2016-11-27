@@ -240,9 +240,9 @@ public class FXMLDocumentController implements Initializable {
        TextField loc = new TextField();
        grid.add(loc, 2, 3);
        Button but=new Button("read track");
-       Label nameTrac=new Label("name of Track:");
+       Label nameTrac=new Label("Name of Track:");
        grid.add(nameTrac, 1, 2);
-       Label locfile=new Label("Lacation file:");
+       Label locfile=new Label("Lacation xml file:");
        grid.add(locfile, 1, 3);
        root.getChildren().addAll(grid, but);
        stage.setTitle("Введите путь к файлу");
